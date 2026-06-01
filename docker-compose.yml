@@ -5,8 +5,6 @@ services:
     restart: always
     volumes:
       - "./data:/checkchan/data"
-      - "./func.js:/checkchan/api/func.js"
-      - "./cron.js:/checkchan/api/cron.js"
     environment:
       - "CKC_PASSWD=123"
       - "VDEBUG=OFF"
