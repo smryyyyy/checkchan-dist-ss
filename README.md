@@ -2,6 +2,28 @@
 
 **Check酱是一个通用网页内容监控工具，可以监测网页内容变化，并发送异动到微信**
 
+> ## 🚀 本 Fork 新增功能：飞书 Webhook 推送
+>
+> 在原版 Server酱 推送基础上，新增了**飞书机器人**推送支持。
+>
+> ### 配置方法
+>
+> 1. 在飞书创建群机器人，获取 Webhook 地址
+> 2. 修改 `docker-compose.yml`，添加环境变量：
+>    ```yaml
+>    environment:
+>      - "WEBHOOK_URL=https://open.feishu.cn/open-apis/bot/v2/hook/你的Webhook地址"
+>      - "WEBHOOK_FORMAT=json"
+>    ```
+> 3. 容器启动后，任务触发变化时自动推送到飞书
+>
+> 飞书消息格式：
+> ```
+> 🔔 监控通知
+> 监测任务名称：xxx
+> 内容：xxx
+> ```
+
 ![](image/20220526194209.png)  
 
 ## 商店安装
