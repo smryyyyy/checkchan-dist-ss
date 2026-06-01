@@ -2,8 +2,11 @@ version: '3'
 services:
   chrome:
     image: easychen/checkchan:latest
+    restart: always
     volumes:
       - "./data:/checkchan/data"
+      - "./func.js:/checkchan/api/func.js"
+      - "./cron.js:/checkchan/api/cron.js"
     environment:
       - "CKC_PASSWD=123"
       - "VDEBUG=OFF"
@@ -15,7 +18,8 @@ services:
       - "ERROR_IMAGE=NORMAL" # NONE,NORMAL,FULL
       #- "SNAP_URL_BASE=http://..."
       #- "SNAP_FULL=1"
-      # - "WEBHOOK_URL=http://..." # 云端 Webhook地址，不需要则不用设置
+      - "WEBHOOK_URL=https://open.feishu.cn/open-apis/bot/v2/hook/YOUR_FEISHU_WEBHOOK_URL_HERE"
+      - "WEBHOOK_FORMAT=json"
       - "TZ=Asia/Chongqing"
     ports:
       - "5900:5900" 

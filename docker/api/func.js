@@ -174,7 +174,7 @@ exports.get_cookies = () =>
     return json_data.cookies;
 }
 
-exports.do_webhook = async( id, url, value, html, link, data ) =>
+exports.do_webhook = async( id, url, value, html, link, data, title = '' ) =>
 {
     // 因为webhook的内容更多，所以不能放到 show_notice 里边处理，这里单独处理
     if( process.env.WEBHOOK_URL )
@@ -188,12 +188,22 @@ exports.do_webhook = async( id, url, value, html, link, data ) =>
         form.append( 'link',link );
         form.append( 'data',data );
 
-        const json = JSON.stringify( { id, url, value, html, link, data } );
+        const is_json = (process.env.WEBHOOK_FORMAT && process.env.WEBHOOK_FORMAT.toLowerCase() == 'json');
+
+        // 飞书 webhook 格式
+        const text = `🔔 监控通知
+监测任务名称：${title}
+内容：${String(value).substring(0,200)}`
+
+        const json = JSON.stringify({
+            msg_type: "text",
+            content: { text }
+        });
 
         try {
             const response = await fetch( process.env.WEBHOOK_URL , {
                 method: 'POST', 
-                body: (process.env.WEBHOOK_FORMAT && process.env.WEBHOOK_FORMAT.toLowerCase() == 'json') ? json : form
+                body: is_json ? json : form
             } );
     
             const ret = await response.text();
